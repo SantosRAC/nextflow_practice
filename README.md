@@ -20,7 +20,7 @@ Contact information:
  * Renato Augusto Corrêa dos Santos [@SantosRAC](https://github.com/SantosRAC)
  * Pedro Cristovão Carvalho [@capuccino26](https://github.com/capuccino26)
  * Shahab Zaki Pour [@shahab178](https://github.com/shahab178)
- * Jorge Mario Muñoz Pérez [@Jomare1188](https://github.com/Jomare1188)
+ * Jorge Mario Muñoz Pérez [@jomare1188](https://github.com/jomare1188)
  * Kelly Hidalgo Martinez [@khidalgo85](https://github.com/khidalgo85)
  * Rayana Feltrin [@rayanafeltrin](https://github.com/rayanafeltrin)
 
