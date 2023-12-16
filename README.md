@@ -12,8 +12,9 @@ Contact information:
 ### Requirements
 
  * Nextflow version 23.10.0 build 5889
- * Trimmomatic 0.40
- * 
+ * ffq v0.3
+ * Trimmomatic v0.39
+
 
 ## Organizers
 
@@ -24,6 +25,7 @@ Contact information:
  * Kelly Hidalgo Martinez [@khidalgo85](https://github.com/khidalgo85)
  * Beatriz Rodrigues Estevam [@Beatriz-Estevam](https://github.com/Beatriz-Estevam)
  * Rayana Feltrin [@rayanafeltrin](https://github.com/rayanafeltrin)
+ * Felipe Vaz Peres [@felipevzps](https://github.com/felipevzps)
 
 
 ## References
