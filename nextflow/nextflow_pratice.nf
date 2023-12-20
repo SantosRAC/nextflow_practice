@@ -11,7 +11,7 @@ process getReadFTP {
     path "${sra_accession}.json"
 
     """
-    ffq -o "${sra_accession}.json" $sra_accession
+    /home/bkoffee/anaconda3/bin/ffq -o "${sra_accession}.json" $sra_accession
     """
 }
 
@@ -23,7 +23,7 @@ process downloadReadFTP {
     path '*.fastq.gz'
 
     """
-    download_from_json.py --json $json_file
+    /media/bkoffee/HDD1/NEXTFLOW/download_from_json.py --json $json_file
     """
 }
 
@@ -35,14 +35,14 @@ process runTrimmomatic {
     if(fastq_read_list.size() == 2)
         """
         echo Running Trimmomatic PE mode
-        java -jar /media/renato/SSD1TB/Software/Trimmomatic-0.39/trimmomatic-0.39.jar PE \
+        java -jar /home/bkoffee/anaconda3/bin/trimmomatic PE \
         -trimlog trimmomatic.log $fastq_read_list -baseout output \
         MINLEN:15
         """
     else if(fastq_read_list.size() == 1)
         """
         echo Running Trimmomatic SE mode
-        java -jar /media/renato/SSD1TB/Software/Trimmomatic-0.39/trimmomatic-0.39.jar SE \
+        java -jar /home/bkoffee/anaconda3/bin/trimmomatic SE \
         -trimlog trimmomatic.log $fastq_read_list output.fastq.gz \
         MINLEN:15
         """
@@ -65,7 +65,7 @@ process sampleinfo {
         script:
         """
         echo File: $filejs
-        sampleinfo.sh "$filejs"
+        /media/bkoffee/HDD1/NEXTFLOW/sampleinfo.sh "$filejs"
         """
 }
 
