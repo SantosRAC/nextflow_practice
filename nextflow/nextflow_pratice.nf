@@ -70,5 +70,5 @@ process sampleinfo {
 
 workflow {
     run_accesion = params.reads
-    channel.of(run_accesion) | getReadFTP | downloadReadFTP | runTrimmomatic | sampleinfo
+    channel.of(run_accesion) | getReadFTP | downloadReadFTP | runTrimmomatic | getReadFTP | usampleinfo
 }
