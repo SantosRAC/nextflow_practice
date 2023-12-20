@@ -35,14 +35,14 @@ process runTrimmomatic {
     if(fastq_read_list.size() == 2)
         """
         echo Running Trimmomatic PE mode
-        java -jar /home/bkoffee/anaconda3/bin/trimmomatic PE \
+        java -jar /media/bkoffee/HDD1/NEXTFLOW/Trimmomatic-0.39/trimmomatic-0.39.jar PE \
         -trimlog trimmomatic.log $fastq_read_list -baseout output \
         MINLEN:15
         """
     else if(fastq_read_list.size() == 1)
         """
         echo Running Trimmomatic SE mode
-        java -jar /home/bkoffee/anaconda3/bin/trimmomatic SE \
+        java -jar /media/bkoffee/HDD1/NEXTFLOW/Trimmomatic-0.39/trimmomatic-0.39.jar SE \
         -trimlog trimmomatic.log $fastq_read_list output.fastq.gz \
         MINLEN:15
         """
