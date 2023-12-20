@@ -1,12 +1,12 @@
 #!/bin/bash
 
 filejs=${1}
-bspl=`/home/bkoffee/anaconda3/bin/jq '.[].sample' "$filejs"`; echo BioSample: "${bspl//\"/}"
-filnm=`/home/bkoffee/anaconda3/bin/jq '.[].accession' "$filejs"`; echo Acession: "${filnm//\"/}"
+bspl=`jq '.[].sample' "$filejs"`; echo BioSample: "${bspl//\"/}"
+filnm=`jq '.[].accession' "$filejs"`; echo Acession: "${filnm//\"/}"
 smr=`esearch -db biosample -query $bspl | esummary -mode json`
-splnm=`echo "$smr" | /home/bkoffee/anaconda3/bin/jq '.. | select(.title?).title'`
+splnm=`echo "$smr" | jq '.. | select(.title?).title'`
 splnm=${splnm^^}
-attb=`/home/bkoffee/anaconda3/bin/jq '.. | select(.sampledata?).sampledata' <<< "$smr"`
+attb=`jq '.. | select(.sampledata?).sampledata' <<< "$smr"`
 attb=${attb##*<Attributes>}
 attb=${attb%</Attributes>*}
 attnms=$(echo $attb | grep -oP '(?<=<Attribute ).*?(?=</Attribute>)' | tr '\n' '^')
