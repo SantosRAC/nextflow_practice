@@ -1,7 +1,6 @@
 #!/usr/bin/env nextflow
 
 params.reads = "SRR1156953"
-params.rawfiles = "$projectDir/*.json"
 
 process getReadFTP {
     input:
@@ -57,20 +56,19 @@ process sampleinfo {
         publishDir "$projectDir/SAMPLEINFO", mode: 'copy'
 
         input:
-        path filejs
+        path json_file
 
         output:
         file '*'
 
         script:
         """
-        echo File: $filejs
-        /media/bkoffee/HDD1/NEXTFLOW/sampleinfo.sh "$filejs"
+        echo File: $json_file
+        /media/bkoffee/HDD1/NEXTFLOW/sampleinfo.sh "$json_file"
         """
 }
 
 workflow {
     run_accesion = params.reads
-    channel.of(run_accesion) | getReadFTP | downloadReadFTP | runTrimmomatic
-    Channel.fromPath(params.rawfiles) | sampleinfo
+    channel.of(run_accesion) | getReadFTP | downloadReadFTP | runTrimmomatic | sampleinfo
 }
