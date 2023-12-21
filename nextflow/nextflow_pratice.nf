@@ -3,12 +3,12 @@
 params.reads = "SRR1156953"
 
 process getReadFTP {
+    publishDir "$projectDir", mode: 'copy'
     input:
     val sra_accession
 
     output:
     path "${sra_accession}.json"
-
     """
     /home/bkoffee/anaconda3/bin/ffq -o "${sra_accession}.json" $sra_accession
     """
@@ -55,20 +55,21 @@ process runTrimmomatic {
 process sampleinfo {
         publishDir "$projectDir/SAMPLEINFO", mode: 'copy'
 
-        input:
-        path json_file
+	input:
+	path json_file
 
         output:
         file '*'
 
         script:
         """
-        echo File: $json_file
         /media/bkoffee/HDD1/NEXTFLOW/sampleinfo.sh "$json_file"
         """
 }
 
 workflow {
     run_accesion = params.reads
-    channel.of(run_accesion) | getReadFTP | downloadReadFTP | runTrimmomatic | getReadFTP | usampleinfo
+    genjson = channel.of(run_accesion) | getReadFTP
+    genjson | downloadReadFTP | runTrimmomatic
+    genjson | sampleinfo
 }
