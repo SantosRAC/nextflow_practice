@@ -2,9 +2,11 @@
 
 ## Practical activity
 
- * January X, 2024
- * X - Y BRT
- * Online: [Google Meet]()
+ * January 15, 2024 (Monday)
+ * 4pm - 6pm BRT
+ * Online: [Google Meet](https://meet.google.com/jsa-uuwf-gbz)
+
+PS: if you want to join the meeting, please send an email to [@SantosRAC](mailto:renatoacsantos@gmail.com) by January 14, 2024 (Sunday).
 
 Contact information:
  * Renato Augusto Corrêa dos Santos [@SantosRAC](mailto:renatoacsantos@gmail.com)
