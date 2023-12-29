@@ -52,7 +52,7 @@ process runTrimmomatic {
         """
 }
 
-process sampleinfo {
+process sampleInfo {
         publishDir "$projectDir/SAMPLEINFO", mode: 'copy'
 
 	input:
