@@ -3,6 +3,7 @@
 params.reads = "SRR1156953"
 
 process getReadFTP {
+    container 'andreatelatin/getreads:2.0'
     input:
     val sra_accession
 
@@ -27,6 +28,7 @@ process downloadReadFTP {
 }
 
 process runTrimmomatic {
+    container 'staphb/trimmomatic'
     input:
     path fastq_read_list
 
@@ -34,14 +36,14 @@ process runTrimmomatic {
     if(fastq_read_list.size() == 2)
         """
         echo Running Trimmomatic PE mode
-        java -jar /media/renato/SSD1TB/Software/Trimmomatic-0.39/trimmomatic-0.39.jar PE \
+        trimmomatic PE \
         -trimlog trimmomatic.log $fastq_read_list -baseout output \
         MINLEN:15
         """
     else if(fastq_read_list.size() == 1)
         """
         echo Running Trimmomatic SE mode
-        java -jar /media/renato/SSD1TB/Software/Trimmomatic-0.39/trimmomatic-0.39.jar SE \
+        trimmomatic SE \
         -trimlog trimmomatic.log $fastq_read_list output.fastq.gz \
         MINLEN:15
         """
