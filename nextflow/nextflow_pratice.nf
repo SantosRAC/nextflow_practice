@@ -3,7 +3,6 @@
 params.reads = "SRR1156953"
 
 process getReadFTP {
-    container 'andreatelatin/getreads:2.0'
     input:
     val sra_accession
 
@@ -21,29 +20,28 @@ process downloadReadFTP {
 
     output:
     path '*.fastq.gz'
-
+    
     """
-    download_from_json.py --json $json_file
+    ${baseDir}/../scripts/download_from_json.py --json $json_file
     """
 }
 
 process runTrimmomatic {
-    container 'staphb/trimmomatic'
     input:
     path fastq_read_list
-
+    
     script:
     if(fastq_read_list.size() == 2)
         """
         echo Running Trimmomatic PE mode
-        trimmomatic PE \
+        \${CONDA_PREFIX}/bin/trimmomatic PE \
         -trimlog trimmomatic.log $fastq_read_list -baseout output \
         MINLEN:15
         """
     else if(fastq_read_list.size() == 1)
         """
         echo Running Trimmomatic SE mode
-        trimmomatic SE \
+        \${CONDA_PREFIX}/bin/trimmomatic SE \
         -trimlog trimmomatic.log $fastq_read_list output.fastq.gz \
         MINLEN:15
         """
