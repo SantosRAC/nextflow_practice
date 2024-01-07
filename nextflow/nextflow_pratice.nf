@@ -1,6 +1,7 @@
 #!/usr/bin/env nextflow
 
 params.reads = "SRR1156953"
+params.readsForSplit = 50000
 
 process getReadFTP {
     container 'andreatelatin/getreads:2.0'
@@ -54,8 +55,43 @@ process runTrimmomatic {
         """
 }
 
+workflow getReadfromSRA{
+    main:
+    // get fastq.gz files
+    chn = Channel.fromSRA(params.reads)
+
+    // format chn output to format accepted by splitFastq 
+    chn2 = chn.map{
+        if(it[1] instanceof String){
+            // println('string')
+            return [it]
+        }
+        else
+        {
+            // println('notrstring')
+            it[1].collect{path -> [it[0], path]}
+        }
+    }
+    .flatMap()
+    .view()
+
+    // workflow output
+    emit:
+    // splitting fastq file - edit 'by'
+    chn2.splitFastq(by:50000, file: true).map {it[1]} 
+}
+
+
 workflow {
     run_accesion = params.reads
     channel.of(run_accesion) | getReadFTP | downloadReadFTP | runTrimmomatic
 
 }
+
+// Alternative workflow 
+// Using fromSRA splitFastq channels to get fastq splitted files
+
+//workflow {
+//    run_accesion = params.reads
+//    runTrimmomatic(getReadfromSRA())
+//}
