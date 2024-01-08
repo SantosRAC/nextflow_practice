@@ -23,7 +23,7 @@ process downloadReadFTP {
     path '*.fastq.gz'
 
     """
-    /media/bkoffee/HDD1/NEXTFLOW/download_from_json.py --json $json_file
+    download_from_json.py --json $json_file
     """
 }
 
@@ -65,7 +65,7 @@ process sampleinfo {
 
         script:
         """
-        /media/bkoffee/HDD1/NEXTFLOW/sampleinfo.sh "$json_file"
+        sampleinfo.sh "$json_file"
         """
 }
 
