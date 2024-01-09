@@ -1,8 +1,13 @@
 #!/usr/bin/env nextflow
 
 params.reads = "SRR1156953"
+params.getReadFT="/Storage/data1/jorge.munoz/nextflow_practice/getReadFTP"
+params.download="/Storage/data1/jorge.munoz/nextflow_practice/download"
+params.trimmomatic="/Storage/data1/jorge.munoz/nextflow_practice/trimmomatic"
 
 process getReadFTP {
+    publishDir("$params.getReadFT", mode: "copy")
+    conda 'conda_envs/ffq.yml'
     input:
     val sra_accession
 
@@ -15,6 +20,8 @@ process getReadFTP {
 }
 
 process downloadReadFTP {
+    publishDir("$params.download", mode: "copy")
+    conda 'conda_envs/TRIMMOMATIC.yml'
     input:
     path json_file
 
@@ -22,11 +29,13 @@ process downloadReadFTP {
     path '*.fastq.gz'
 
     """
-    download_from_json.py --json $json_file
+    /Storage/data1/jorge.munoz/nextflow_practice/scripts/download_from_json.py --json $json_file
     """
 }
 
 process runTrimmomatic {
+    publishDir("$params.trimmomatic", mode: "copy")
+    conda 'conda_envs/TRIMMOMATIC.yml'
     input:
     path fastq_read_list
 
@@ -34,14 +43,14 @@ process runTrimmomatic {
     if(fastq_read_list.size() == 2)
         """
         echo Running Trimmomatic PE mode
-        java -jar /media/renato/SSD1TB/Software/Trimmomatic-0.39/trimmomatic-0.39.jar PE \
+        trimmomatic PE \
         -trimlog trimmomatic.log $fastq_read_list -baseout output \
         MINLEN:15
         """
     else if(fastq_read_list.size() == 1)
         """
         echo Running Trimmomatic SE mode
-        java -jar /media/renato/SSD1TB/Software/Trimmomatic-0.39/trimmomatic-0.39.jar SE \
+        trimmomatic SE \
         -trimlog trimmomatic.log $fastq_read_list output.fastq.gz \
         MINLEN:15
         """

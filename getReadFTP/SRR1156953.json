@@ -1,0 +1,105 @@
+{
+    "SRR1156953": {
+        "accession": "SRR1156953",
+        "experiment": "SRX461148",
+        "study": "SRP036152",
+        "sample": "SRS550795",
+        "title": "Illumina HiSeq 2000 paired end sequencing; Gluconacetobacter rhaeticus strain AF1 genome sequencing",
+        "attributes": {
+            "ENA-SPOT-COUNT": 44413164,
+            "ENA-BASE-COUNT": 8882632800,
+            "ENA-FIRST-PUBLIC": "2014-07-24",
+            "ENA-LAST-UPDATE": "2016-06-28"
+        },
+        "files": {
+            "ftp": [
+                {
+                    "accession": "SRR1156953",
+                    "filename": "SRR1156953_1.fastq.gz",
+                    "filetype": "fastq",
+                    "filesize": 3657386759,
+                    "filenumber": 1,
+                    "md5": "88120861441c5444af0a835aafa35ad7",
+                    "urltype": "ftp",
+                    "url": "ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR115/003/SRR1156953/SRR1156953_1.fastq.gz"
+                },
+                {
+                    "accession": "SRR1156953",
+                    "filename": "SRR1156953_2.fastq.gz",
+                    "filetype": "fastq",
+                    "filesize": 3734170194,
+                    "filenumber": 2,
+                    "md5": "96f9f3899452bbbd9e7677f955bdd87d",
+                    "urltype": "ftp",
+                    "url": "ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR115/003/SRR1156953/SRR1156953_2.fastq.gz"
+                }
+            ],
+            "aws": [
+                {
+                    "accession": "SRR1156953",
+                    "filename": "AF1_TCATTC_L005_R1_001.fastq.gz",
+                    "filetype": "fastq",
+                    "filesize": null,
+                    "filenumber": 1,
+                    "md5": null,
+                    "urltype": "aws",
+                    "url": "s3://sra-pub-src-11/SRR1156953/AF1_TCATTC_L005_R1_001.fastq.gz"
+                },
+                {
+                    "accession": "SRR1156953",
+                    "filename": "SRR1156953.sralite.1",
+                    "filetype": "sra",
+                    "filesize": null,
+                    "filenumber": 1,
+                    "md5": null,
+                    "urltype": "aws",
+                    "url": "s3://sra-pub-zq-4/SRR1156953/SRR1156953.sralite.1"
+                },
+                {
+                    "accession": "SRR1156953",
+                    "filename": "SRR1156953",
+                    "filetype": "sra",
+                    "filesize": null,
+                    "filenumber": 1,
+                    "md5": null,
+                    "urltype": "aws",
+                    "url": "https://sra-pub-run-odp.s3.amazonaws.com/sra/SRR1156953/SRR1156953"
+                },
+                {
+                    "accession": "SRR1156953",
+                    "filename": "AF1_TCATTC_L005_R2_001.fastq.gz",
+                    "filetype": "fastq",
+                    "filesize": null,
+                    "filenumber": 2,
+                    "md5": null,
+                    "urltype": "aws",
+                    "url": "s3://sra-pub-src-13/SRR1156953/AF1_TCATTC_L005_R2_001.fastq.gz"
+                }
+            ],
+            "gcp": [
+                {
+                    "accession": "SRR1156953",
+                    "filename": "SRR1156953.zq.1",
+                    "filetype": "sra",
+                    "filesize": null,
+                    "filenumber": 1,
+                    "md5": null,
+                    "urltype": "gcp",
+                    "url": "gs://sra-pub-zq-1/SRR1156953/SRR1156953.zq.1"
+                }
+            ],
+            "ncbi": [
+                {
+                    "accession": "SRR1156953",
+                    "filename": "SRR1156953.sralite.1",
+                    "filetype": "sra",
+                    "filesize": null,
+                    "filenumber": 1,
+                    "md5": null,
+                    "urltype": "ncbi",
+                    "url": "https://sra-downloadb.be-md.ncbi.nlm.nih.gov/sos5/sra-pub-zq-11/SRR001/156/SRR1156953/SRR1156953.sralite.1"
+                }
+            ]
+        }
+    }
+}
