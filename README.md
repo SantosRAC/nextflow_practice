@@ -21,9 +21,11 @@ Contact information:
 ### Pipeline execution
 
 ```bash
-nextflow run nextflow_pratice.nf
+cd nextflow
+nextflow run nextflow_pratice.nf -c ../nextflow.config
+# if docker requires sudo
+sudo /path/to/nextflow nextflow_pratice.nf -c ../nextflow.config
 ```
-
 
 ## Organizers
 
