@@ -18,6 +18,13 @@ Contact information:
  * Trimmomatic v0.39
 
 
+### Pipeline execution
+
+```bash
+nextflow run nextflow_pratice.nf
+```
+
+
 ## Organizers
 
  * Renato Augusto Corrêa dos Santos [@SantosRAC](https://github.com/SantosRAC)
