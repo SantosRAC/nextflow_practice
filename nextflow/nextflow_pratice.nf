@@ -67,16 +67,17 @@ process sampleInfo {
 
         script:
         """
-        sampleinfo.sh "$json_file"
+        ${baseDir}/../scripts/sampleinfo.sh "$json_file"
         """
 }
 
 workflow {
-    run_accesion = params.reads
-    genjson = channel.of(run_accesion) | getReadFTP
+    run_accession = params.reads
+    genjson = channel.of(run_accession) | getReadFTP
     genjson | downloadReadFTP | runTrimmomatic
-    genjson | sampleinfo
+    genjson | sampleInfo
 }
+
 workflow getReadfromSRA{
     main:
     // get fastq.gz files
@@ -102,14 +103,6 @@ workflow getReadfromSRA{
     // splitting fastq file - edit 'by'
     chn2.splitFastq(by:50000, file: true).map {it[1]} 
 }
-
-
-workflow {
-    run_accesion = params.reads
-    channel.of(run_accesion) | getReadFTP | downloadReadFTP | runTrimmomatic
-
-}
-
 // Alternative workflow 
 // Using fromSRA splitFastq channels to get fastq splitted files
 
