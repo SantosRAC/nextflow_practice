@@ -45,7 +45,6 @@ process runTrimmomatic {
         """
         echo Running Trimmomatic SE mode
         trimmomatic SE \
-
         -trimlog trimmomatic.log $fastq_read_list output.fastq.gz \
         MINLEN:15
         """
