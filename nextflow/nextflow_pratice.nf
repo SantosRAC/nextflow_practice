@@ -1,6 +1,6 @@
 #!/usr/bin/env nextflow
 
-params.reads = "SRR1156953"
+params.reads = "SRR26130076"
 params.readsForSplit = 50000
 
 process getReadFTP {
@@ -24,7 +24,7 @@ process downloadReadFTP {
     path '*.fastq.gz'
     
     """
-    ${baseDir}/../scripts/download_from_json.py --json $json_file
+    download_from_json.py --json $json_file
     """
 }
 
@@ -66,7 +66,7 @@ process sampleInfo {
 
         script:
         """
-        ${baseDir}/../scripts/sampleinfo.sh "$json_file"
+        sampleinfo.sh "$json_file"
         """
 }
 
