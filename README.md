@@ -30,7 +30,7 @@ sudo /path/to/nextflow nextflow_pratice.nf -c ../nextflow.config
 [@jomare1188](https://github.com/jomare1188) suggested to add the following parameters to the command line: `-with-report -with-dag`. They provide a report and a DAG graph, respectively.
 
 ```bash
-sudo /media/renato/SSD1TB/Software/nextflow nextflow_pratice.nf -c ../nextflow.config -with-report -with-dag --reads "SRR6665476"
+sudo /path/to/nextflow nextflow_pratice.nf -c ../nextflow.config -with-report -with-dag --reads "SRR6665476"
 ```
 
 `--reads "SRR6665476"` changes the value of `params.reads` variable in the nextflow.nf file.
