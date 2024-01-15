@@ -34,7 +34,6 @@ sudo /path/to/nextflow nextflow_pratice.nf -c ../nextflow.config
  * Jorge Mario Muñoz Pérez [@jomare1188](https://github.com/jomare1188)
  * Kelly Hidalgo Martinez [@khidalgo85](https://github.com/khidalgo85)
  * Beatriz Rodrigues Estevam [@Beatriz-Estevam](https://github.com/Beatriz-Estevam)
- * Rayana Feltrin [@rayanafeltrin](https://github.com/rayanafeltrin)
  * Felipe Vaz Peres [@felipevzps](https://github.com/felipevzps)
 
 
