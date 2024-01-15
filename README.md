@@ -27,6 +27,16 @@ nextflow run nextflow_pratice.nf -c ../nextflow.config
 sudo /path/to/nextflow nextflow_pratice.nf -c ../nextflow.config
 ```
 
+[@jomare1188](https://github.com/jomare1188) suggested to add the following parameters to the command line: `-with-report -with-dag`. They provide a report and a DAG graph, respectively.
+
+```bash
+sudo /media/renato/SSD1TB/Software/nextflow nextflow_pratice.nf -c ../nextflow.config -with-report -with-dag --reads "SRR6665476"
+```
+
+`--reads "SRR6665476"` changes the value of `params.reads` variable in the nextflow.nf file.
+
+After the activity, we added a report and a DAG graph to the `/results` folder, providing examples of workflows that failed and succeeded.
+
 ## Organizers
 
  * Renato Augusto Corrêa dos Santos [@SantosRAC](https://github.com/SantosRAC)
