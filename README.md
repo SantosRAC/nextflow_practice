@@ -16,6 +16,8 @@ Contact information:
  * Nextflow version 23.10.0 build 5889
  * ffq v0.3
  * Trimmomatic v0.39
+ * jq v1.7.1
+ * [edirect](https://www.ncbi.nlm.nih.gov/books/NBK25501/)
 
 
 ### Pipeline execution
