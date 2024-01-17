@@ -4,22 +4,23 @@
 
 # Creating the file variable from outside the script (from nextflow pipeline or command line flag)
 filejs=${1}
+jqpth=`which jq`
 
 # Creating variable with BioSample value
-bspl=`jq '.[].sample' "$filejs"`; echo BioSample: "${bspl//\"/}"
+bspl=`$jqpth '.[].sample' "$filejs"`; echo BioSample: "${bspl//\"/}"
 
 # Creating variable with Accession number
-filnm=`jq '.[].accession' "$filejs"`; echo Acession: "${filnm//\"/}"
+filnm=`$jqpth '.[].accession' "$filejs"`; echo Acession: "${filnm//\"/}"
 
 # Gathering .json metadata information from Entrez Utilities into variable
 smr=`esearch -db biosample -query $bspl | esummary -mode json`
 
 # Parsing attributes information from metadata into variables
 ## Sample Name
-splnm=`echo "$smr" | jq '.. | select(.title?).title'`
+splnm=`echo "$smr" | $jqpth '.. | select(.title?).title'`
 splnm=${splnm^^}
 ## Sample Data including all attributes from file
-attb=`jq '.. | select(.sampledata?).sampledata' <<< "$smr"`
+attb=`$jqpth '.. | select(.sampledata?).sampledata' <<< "$smr"`
 attb=${attb##*<Attributes>}
 attb=${attb%</Attributes>*}
 ## Listing each attribute
