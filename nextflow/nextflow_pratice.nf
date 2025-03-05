@@ -70,10 +70,43 @@ process sampleInfo {
         """
 }
 
+process SalmonFull {
+    container 'combinelab/salmon:latest'
+    publishDir "$projectDir/SALMON_RESULTS", mode: 'copy'
+
+    input:
+    path trimmed_reads
+
+    output:
+    path "${params.reads}_COMPGG"
+
+    script:
+    def line = params.reads
+    def files = trimmed_reads.listFiles()
+
+    if (files.size() == 2) {
+        """
+        salmon quant -i ../../SALMON/COMPGG_index -l A \
+        -1 ${files[0]} -2 ${files[1]} \
+        --validateMappings -o ${line}_COMPGG \
+        --threads 10 --seqBias --gcBias
+        """
+    } else if (files.size() == 1) {
+        """
+        salmon quant -i ../../SALMON/COMPGG_index -l A \
+        -r ${files[0]} \
+        --validateMappings -o ${line}_COMPGG \
+        --threads 10 --seqBias --gcBias
+        """
+    } else {
+        error "Error: No valid trimmed reads found for Salmon: ${files.size()}"
+    }
+}
+
 workflow {
     run_accession = params.reads
     genjson = channel.of(run_accession) | getReadFTP
-    genjson | downloadReadFTP | runTrimmomatic
+    genjson | downloadReadFTP | runTrimmomatic | SalmonFull
     genjson | sampleInfo
 }
 
