@@ -1,11 +1,11 @@
 #!/usr/bin/env nextflow
 
-params.reads = "SRR26130076"
+params.reads = "SRR8742861"
 params.readsForSplit = 50000
 
 process getReadFTP {
-    publishDir "$projectDir", mode: 'copy'
-    container 'andreatelatin/getreads:2.0'
+    publishDir "$projectDir/READS", mode: 'copy'
+    container 'file:///Storage/data1/pedro.carvalho/NEXTFLOW/nextflow_practice/nextflow/getreads.sif'
     input:
     val sra_accession
 
@@ -17,6 +17,7 @@ process getReadFTP {
 }
 
 process downloadReadFTP {
+    publishDir "$projectDir/FASTQ", mode: 'copy'
     input:
     path json_file
 
@@ -29,7 +30,8 @@ process downloadReadFTP {
 }
 
 process runTrimmomatic {
-    container 'staphb/trimmomatic'
+    publishDir "$projectDir/TRIMMED_READS", mode: 'copy'
+    container 'singularity://staphb/trimmomatic'
     input:
     path fastq_read_list
     
@@ -58,8 +60,8 @@ process runTrimmomatic {
 process sampleInfo {
         publishDir "$projectDir/SAMPLEINFO", mode: 'copy'
 
-	input:
-	path json_file
+        input:
+        path json_file
 
         output:
         file '*'
@@ -71,14 +73,14 @@ process sampleInfo {
 }
 
 process SalmonFull {
-    container 'combinelab/salmon:latest'
+    container 'singularity://library://vi.ya/rnaseq-dbs/salmon-1.4.0:latest'
     publishDir "$projectDir/SALMON_RESULTS", mode: 'copy'
 
     input:
-    path trimmed_reads
+    path fastq_reads
 
     output:
-    path "${params.reads}_COMPGG"
+    path "${params.reads}_RTX430"
 
     script:
     def line = params.reads
@@ -86,16 +88,16 @@ process SalmonFull {
 
     if (files.size() == 2) {
         """
-        salmon quant -i ../../SALMON/COMPGG_index -l A \
+        salmon quant -i /bin/RTX430_index -l A \
         -1 ${files[0]} -2 ${files[1]} \
-        --validateMappings -o ${line}_COMPGG \
+        --validateMappings -o ${line}_RTX430 \
         --threads 10 --seqBias --gcBias
         """
     } else if (files.size() == 1) {
         """
-        salmon quant -i ../../SALMON/COMPGG_index -l A \
+        salmon quant -i /bin/RTX430_index -l A \
         -r ${files[0]} \
-        --validateMappings -o ${line}_COMPGG \
+        --validateMappings -o ${line}_RTX430 \
         --threads 10 --seqBias --gcBias
         """
     } else {
@@ -106,7 +108,8 @@ process SalmonFull {
 workflow {
     run_accession = params.reads
     genjson = channel.of(run_accession) | getReadFTP
-    genjson | downloadReadFTP | runTrimmomatic | SalmonFull
+    fastq_files = genjson | downloadReadFTP
+    fastq_files | SalmonFull
     genjson | sampleInfo
 }
 
