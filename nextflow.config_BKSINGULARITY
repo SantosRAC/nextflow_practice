@@ -1,0 +1,32 @@
+// Usage (CENA - SGE):
+// nextflow run nextflow/nextflow_pratice.nf -c nextflow.config -profile sge
+
+// Usage (CENAPAD - PBS)
+// nextflow run nextflow/nextflow_pratice.nf -c nextflow.config -profile pbs
+
+// habilita o uso de docker 
+
+docker.enabled = false
+docker.runOptions = '-u $(id -u):$(id -g)'
+
+singularity.enabled = true
+singularity.runOptions = '--bind /storage'
+
+profiles {
+
+    sge {
+        process.executor            = 'sge'
+        process.queue               = 'all.q'
+        process.clusterOptions      = '-S /bin/bash -pe smp 1 -cwd -V'
+        process.conda               = '~/.conda/envs/nextflow'
+
+    }
+
+    pbs {
+        process.executor            = 'pbs'
+        process.queue               = 'serial'
+        process.clusterOptions      = '-S /bin/bash'
+        process.conda               = '~/miniconda3/envs/nextflow'
+    }
+
+}
