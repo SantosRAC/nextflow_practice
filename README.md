@@ -17,6 +17,8 @@ Contact information:
  * ffq v0.3.1
  * fastqc v0.12.1
  * Trimmomatic v0.39
+ * jq v1.7.1
+ * [edirect](https://www.ncbi.nlm.nih.gov/books/NBK25501/)
 
 
 ### Pipeline execution
