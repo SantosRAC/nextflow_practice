@@ -1,29 +1,40 @@
 process salmonIndex {
     input:
-        val indexName from params.indexName
+        val indexName
 
     output:
-        path "$projectDir/6b_References/${indexName}"
+        path "6b_References/${indexName}_index"
 
     script:
-        def refDir = "$projectDir/6b_References"
-        def referenceFasta = "$projectDir/GENOMES/RAW/*${indexName}*{.fa,.fasta,.fa.gz,.fasta.gz}"
-        def indexPath = "$refDir/${indexName}_index"
-        
+        def refDir = "6b_References"
+        def indexPath = "${refDir}/${indexName}_index"
+
         if (file(indexPath).exists()) {
             """
-            echo "Reference already indexed"
+            echo "Reference index already exists at ${indexPath}"
             """
-        } 
-        else {
-            if (file(referenceFasta).exists()) {
+        } else {
+            def fastaPattern = "${params.genomes_dir}/*${indexName}*.fa"
+            
+            def proc = ["bash", "-c", "ls ${fastaPattern}"].execute()
+            proc.waitFor()
+            
+            if (proc.exitValue() == 0) {
+                def fastaFile = proc.text.trim().split('\n')[0]
                 """
-                echo "Indexing reference genome..."
-                salmon index -t ${referenceFasta} -i ${indexPath} --gencode
+                echo "Indexing reference genome using ${fastaFile}"
+                mkdir -p ${refDir}
+                salmon index -t "${fastaFile}" -i "${indexPath}" --gencode
+                
+                if [ ! -d "${indexPath}" ]; then
+                    echo "Error: Failed to create salmon index" >&2
+                    exit 1
+                fi
                 """
-            } 
-            else {
-                error "Fasta file for reference not found"
+            } else {
+                error "Fasta file for reference not found matching pattern: ${fastaPattern}\n" +
+                      "Available files in ${params.genomes_dir}:\n" +
+                      new File(params.genomes_dir).listFiles().collect{ it.getName() }.join('\n')
             }
         }
 }
