@@ -1,36 +1,31 @@
 process salmonQuant {
     input:
-        path trimmed_reads from "$projectDir/${params.outdir}/5_trimmedReads/*"
+        path trimmed_reads
 
     output:
         path "${trimmed_reads.baseName}_${params.indexName}"
 
     script:
-        def indexPath = "$projectDir/bin/${params.indexName}_index"
-        
-        if (trimmed_reads.size() == 1) {
-            // Single-end
-            """
+        def indexPath = "$projectDir/6b_References/${params.indexName}_index"
+
+        """
+        if [[ -f ${trimmed_reads} ]]; then
             echo "Running Salmon in Single-End mode"
             salmon quant -i ${indexPath} -l A \
-            -r ${trimmed_reads[0]} \
+            -r ${trimmed_reads} \
             --validateMappings -o ${trimmed_reads.baseName}_${params.indexName} \
             --threads 2 --seqBias --gcBias \
             --reduceGCMemory
-            """
-        } 
-        else if (trimmed_reads.size() == 2) {
-            // Paired-end
-            """
+        elif [[ \$(ls -1 ${trimmed_reads} | wc -l) -eq 2 ]]; then
             echo "Running Salmon in Paired-End mode"
             salmon quant -i ${indexPath} -l A \
-            -1 ${trimmed_reads[0]} -2 ${trimmed_reads[1]} \
+            -1 \$(echo ${trimmed_reads} | cut -d ' ' -f1) -2 \$(echo ${trimmed_reads} | cut -d ' ' -f2) \
             --validateMappings -o ${trimmed_reads.baseName}_${params.indexName} \
             --threads 2 --seqBias --gcBias \
             --reduceGCMemory
-            """
-        } 
-        else {
-            error "Error: Unexpected number of FASTQ files"
-        }
+        else
+            echo "Error: Unexpected number of FASTQ files" >&2
+            exit 1
+        fi
+        """
 }
