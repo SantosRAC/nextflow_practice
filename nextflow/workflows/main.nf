@@ -46,10 +46,12 @@ workflow {
     trimmed_multiqc_ch = trimmed_fastqc_ch.collect() | trimmed_multiqc
 
     // run salmonIndex to check for reference or generate it
-    salmon_index_ch = trimmed_fastq_ch | salmonIndex
+    salmon_index_ch = Channel.value(params.indexName)
+    salmon_index_ch | salmonIndex
 
     // run salmonQuant after index is generated or already exists
-    salmon_quant_ch = salmon_index_ch | salmonQuant
+    trimmed_reads_ch = Channel.fromPath("5_trimmedReads/*.fastq")
+    salmon_quant_ch = trimmed_reads_ch | salmonQuant
 
     // aqui estou incluindo o processo sampleInfo, mas não sei exatamente qual é a saída esperada
     json_ch | sampleInfo
