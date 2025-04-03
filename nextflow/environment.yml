@@ -146,7 +146,6 @@ dependencies:
   - typing-extensions=4.13.0=h9fa5a19_1
   - typing-inspection=0.4.0=pyhd8ed1ab_0
   - typing_extensions=4.13.0=pyh29332c3_1
-  - tzdata=2025b=h78e105d_0
   - urllib3=2.3.0=pyhd8ed1ab_0
   - xorg-libice=1.1.2=hb9d3cd8_0
   - xorg-libsm=1.2.6=he73a12e_0
@@ -170,7 +169,12 @@ dependencies:
       - llvmlite==0.44.0
       - numba==0.61.0
       - numpy==1.26.4
+      - pandas==2.2.3
+      - python-dateutil==2.9.0.post0
+      - pytz==2025.2
       - scikit-learn==1.6.1
       - scipy==1.15.2
+      - six==1.17.0
       - threadpoolctl==3.6.0
+      - tzdata==2025.2
 prefix: /home/santosrac/miniconda3/envs/nextflow_practice
