@@ -13,19 +13,24 @@ Contact information:
 
 ### Requirements
 
- * Nextflow version 23.10.0 build 5889
- * ffq v0.3.1
- * fastqc v0.12.1
- * Trimmomatic v0.39
+See YML
 
+
+### Configuring the conda environment
+
+```bash
+# 
+conda env export > environment.yml
+
+# 
+conda env create --name nextflow_practice -f environment.yml
+conda activate nextflow_practice
+```
 
 ### Pipeline execution
 
 ```bash
-cd nextflow
-nextflow run nextflow_pratice.nf -c ../nextflow.config
-# if docker requires sudo
-sudo /path/to/nextflow nextflow_pratice.nf -c ../nextflow.config
+nextflow run main.nf -c ../nextflow.config
 ```
 
 [@jomare1188](https://github.com/jomare1188) suggested to add the following parameters to the command line: `-with-report -with-dag`. They provide a report and a DAG graph, respectively.
