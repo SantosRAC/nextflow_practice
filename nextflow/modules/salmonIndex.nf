@@ -25,11 +25,6 @@ process salmonIndex {
                 echo "Indexing reference genome using ${fastaFile}"
                 mkdir -p ${refDir}
                 salmon index -t "${fastaFile}" -i "${indexPath}" --gencode
-                
-                if [ ! -d "${indexPath}" ]; then
-                    echo "Error: Failed to create salmon index" >&2
-                    exit 1
-                fi
                 """
             } else {
                 error "Fasta file for reference not found matching pattern: ${fastaPattern}\n" +

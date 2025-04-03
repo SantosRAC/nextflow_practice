@@ -2,21 +2,11 @@
 nextflow.enable.dsl=2
 
 // include modules
-include { getReadFTP                    } from "../modules/getReadFTP.nf"
-include { sampleInfo                    } from "../modules/sampleInfo.nf"
-include { downloadReadFTP               } from "../modules/downloadReadFTP.nf"
-include { fastqc as raw_fastqc          } from "../modules/fastqc.nf"
-include { multiqc as raw_multiqc        } from "../modules/multiqc.nf"
-include { bbduk                         } from "../modules/bbduk.nf"
-include { fastqc as trimmed_fastqc      } from "../modules/fastqc.nf"
-include { multiqc as trimmed_multiqc    } from "../modules/multiqc.nf"
 include { salmonQuant                   } from "../modules/salmonQuant.nf"
-include { salmonIndex                   } from "../modules/salmonIndex.nf"
 
 workflow {
-    // read csv with samples (run = SRA Accession)
-    samples_ch = Channel.fromPath("samples/samples.csv")
-                        .splitCsv(header: true)
+    // Criando um canal com os arquivos de trimmed reads
+    trimmed_reads_ch = Channel.fromPath("5_trimmedReads/*.fastq")
 
     // map run and sample_name (from samples.csv)
     sample_info = samples_ch.map { row -> tuple(row.run, row.sample_name) }
@@ -55,4 +45,7 @@ workflow {
 
     // aqui estou incluindo o processo sampleInfo, mas não sei exatamente qual é a saída esperada
     json_ch | sampleInfo
+
+    // Passando esse canal para o processo salmonQuant
+    trimmed_reads_ch | salmonQuant
 }
