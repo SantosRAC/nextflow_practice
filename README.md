@@ -30,7 +30,7 @@ conda activate nextflow_practice
 ### Pipeline execution
 
 ```bash
-nextflow run main.nf -c ../nextflow.config
+nextflow run main.nf -c ../nextflow.config -with-report -with-dag
 ```
 
 [@jomare1188](https://github.com/jomare1188) suggested to add the following parameters to the command line: `-with-report -with-dag`. They provide a report and a DAG graph, respectively.
