@@ -2,3 +2,4 @@
 .nextflow.log*
 work/
 results/
+references/

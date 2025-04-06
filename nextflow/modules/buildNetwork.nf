@@ -3,12 +3,12 @@ process buildNetwork {
         path expression_matrix
 
     output:
-        path network_file
+        path "network" //TODO: set the output name in the config file
 
     script:
         
         """
         echo "Generating network from expression matrix"
-        generate_correlations_corals.py --expression_matrix ${expression_matrix} --output_network ${network_file}
+        ${projectDir}/../bin/generate_correlations_corals.py --expression_matrix $expression_matrix --output_network network
         """
 }
