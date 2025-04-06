@@ -11,6 +11,7 @@ dependencies:
   - attrs=25.3.0=pyh71513ae_0
   - bbmap=39.19=he5f24ec_0
   - beautifulsoup4=4.13.3=pyha770c72_0
+  - boost-cpp=1.85.0=h3c6214e_4
   - brotli-python=1.1.0=py313h46c70d0_2
   - bzip2=1.0.8=h4bc722e_7
   - c-ares=1.34.4=hb9d3cd8_0
@@ -58,24 +59,31 @@ dependencies:
   - ld_impl_linux-64=2.43=h712a8e2_4
   - lerc=4.0.0=h27087fc_0
   - libblas=3.9.0=31_h59b9bed_openblas
+  - libboost=1.85.0=h0ccab89_4
+  - libboost-devel=1.85.0=h00ab1b0_4
+  - libboost-headers=1.85.0=ha770c72_4
   - libcblas=3.9.0=31_he106b2a_openblas
   - libcups=2.3.3=h4637d8d_4
   - libcurl=8.12.1=h332b0f4_0
-  - libdeflate=1.23=h4ddbbb0_0
+  - libdeflate=1.22=hb9d3cd8_0
   - libedit=3.1.20250104=pl5321h7949ede_0
   - libev=4.33=hd590300_2
   - libexpat=2.6.4=h5888daf_0
   - libffi=3.4.6=h2dba641_0
   - libgcc=14.2.0=h767d61c_2
   - libgcc-ng=14.2.0=h69a702a_2
+  - libgff=2.0.0=h077b44d_2
   - libgfortran=14.2.0=h69a702a_2
   - libgfortran5=14.2.0=hf1ad2bd_2
   - libglib=2.82.2=h2ff4ddf_1
   - libgomp=14.2.0=h767d61c_2
+  - libhwloc=2.11.2=default_h0d58e46_1001
   - libiconv=1.18=h4ce23a2_1
+  - libjemalloc=5.3.0=h5888daf_1
   - libjpeg-turbo=3.0.0=hd590300_1
   - liblapack=3.9.0=31_h7ac8fdf_openblas
   - liblzma=5.6.4=hb9d3cd8_0
+  - liblzma-devel=5.6.4=hb9d3cd8_0
   - libmpdec=4.0.0=h4bc722e_0
   - libnghttp2=1.64.0=h161d5f1_0
   - libopenblas=0.3.29=pthreads_h94d23a6_0
@@ -84,7 +92,7 @@ dependencies:
   - libssh2=1.11.1=hf672d98_0
   - libstdcxx=14.2.0=h8f9b012_2
   - libstdcxx-ng=14.2.0=h4852527_2
-  - libtiff=4.7.0=hd9ff511_3
+  - libtiff=4.7.0=hc4654cb_2
   - libuuid=2.38.1=h0b41bf4_0
   - libwebp-base=1.5.0=h851e524_0
   - libxcb=1.17.0=h8a09558_0
@@ -105,7 +113,6 @@ dependencies:
   - networkx=3.4.2=pyh267e887_2
   - nspr=4.36=h5888daf_0
   - nss=3.108=h159eef7_0
-  - numpy=2.2.4=py313h17eae1a_0
   - openjdk=23.0.2=h68779a4_1
   - openjpeg=2.5.3=h5fbd93e_0
   - openssl=3.4.1=h7b32b05_0
@@ -136,17 +143,19 @@ dependencies:
   - rich=13.9.4=pyhd8ed1ab_1
   - rich-click=1.8.8=pyhd8ed1ab_0
   - rpds-py=0.23.1=py313h6071e0b_0
+  - salmon=1.10.3=h45fbf2d_4
   - samtools=1.21=h96c455f_1
   - soupsieve=2.5=pyhd8ed1ab_1
   - spectra=0.0.11=pyhd8ed1ab_2
   - sqlite=3.49.1=h9eae976_2
+  - staden_io_lib=1.15.0=hfc9290b_4
+  - tbb=2022.1.0=h4ce085d_0
   - tiktoken=0.9.0=py313h3f234b3_0
   - tk=8.6.13=noxft_h4845f30_101
   - tqdm=4.67.1=pyhd8ed1ab_1
   - typeguard=4.4.2=pyhd8ed1ab_0
   - typing-extensions=4.12.2=hd8ed1ab_1
   - typing_extensions=4.12.2=pyha770c72_1
-  - tzdata=2025b=h78e105d_0
   - urllib3=2.3.0=pyhd8ed1ab_0
   - xorg-libice=1.1.2=hb9d3cd8_0
   - xorg-libsm=1.2.6=he73a12e_0
@@ -160,8 +169,25 @@ dependencies:
   - xorg-libxrender=0.9.12=hb9d3cd8_0
   - xorg-libxt=1.3.1=hb9d3cd8_0
   - xorg-libxtst=1.2.5=hb9d3cd8_3
+  - xz=5.6.4=hbcc6ac9_0
+  - xz-gpl-tools=5.6.4=hbcc6ac9_0
+  - xz-tools=5.6.4=hb9d3cd8_0
   - yaml=0.2.5=h7f98852_2
   - zipp=3.21.0=pyhd8ed1ab_1
   - zstandard=0.23.0=py313h536fd9c_1
   - zstd=1.5.7=hb8e6e7a_2
+  - pip:
+    - corals==0.1.7
+    - joblib==1.4.2
+    - llvmlite==0.44.0
+    - numba==0.61.0
+    - numpy==1.26.4
+    - pandas==2.2.3
+    - python-dateutil==2.9.0.post0
+    - pytz==2025.2
+    - scikit-learn==1.6.1
+    - scipy==1.15.2
+    - six==1.17.0
+    - threadpoolctl==3.6.0
+    - tzdata==2025.2
 prefix: /home/felipevzps/miniconda3/envs/nextflow_practice
