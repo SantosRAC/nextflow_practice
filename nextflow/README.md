@@ -76,6 +76,12 @@ nextflow run workflows/main.nf -c config/nextflow.config -with-report -with-dag
 
 ---
 
+# test data
+
+We are expecting the following genome for the purpose of tests:
+
+ * GCF_000412675.1 (samples.csv contains a RNA-seq dataset for this species)
+
 # example output summary
 
 ```
