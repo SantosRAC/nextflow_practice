@@ -1,13 +1,9 @@
 #!/usr/bin/env nextflow
 
-params.reads = "SRR8742861"
+params.reads = "SRR26130076"
 params.readsForSplit = 50000
 
 process getReadFTP {
-<<<<<<< HEAD
-    publishDir "$projectDir/READS", mode: 'copy'
-=======
->>>>>>> 3201447f347db6be6a9ef9ba9785435b225fafa8
     input:
     val sra_accession
 
@@ -19,17 +15,14 @@ process getReadFTP {
 }
 
 process downloadReadFTP {
-    publishDir "$projectDir/FASTQ", mode: 'copy'
     input:
     path json_file
 
     output:
     path '*.fastq.gz'
     
-    script:
     """
-    python3 $projectDir/bin/download_from_json.py --json $json_file
-    ls -l
+    download_from_json.py --json $json_file
     """
 }
 
@@ -62,9 +55,7 @@ process runFastQC {
 }
 
 process runTrimmomatic {
-    publishDir "$projectDir/TRIMMED_READS", mode: 'copy'
     container 'staphb/trimmomatic'
-
     input:
     path fastq_read_list
     
@@ -91,72 +82,56 @@ process runTrimmomatic {
 }
 
 process sampleInfo {
-    publishDir "$projectDir/SAMPLEINFO", mode: 'copy'
-    input:
-    path json_file
+        publishDir "$projectDir/SAMPLEINFO", mode: 'copy'
 
-    output:
-    file '*'
+	input:
+	path json_file
 
-    script:
-    """
-    sampleinfo.sh "$json_file"
-    """
-}
+        output:
+        file '*'
 
-process SalmonFull {
-    publishDir "$projectDir/SALMON_RESULTS", mode: 'copy'
-
-    input:
-    path fastq_reads
-
-    output:
-    path "${fastq_reads.baseName}_RTX430"
-
-    script:
-    def line = fastq_reads.baseName
-    def indexPath = "$projectDir/bin/RTX430_index"
-
-    println "Listing files in FASTQ folder:"
-    def listFiles = "ls -lh FASTQ/"
-    listFiles.execute().text.split("\n").each { println it }
-
-    def fastqFiles = file("FASTQ/*.fastq.gz").toList()
-
-    println "Found files: ${fastqFiles}"
-
-    if (fastqFiles.size() == 1) {
-        // Single-end
+        script:
         """
-        salmon quant -i ${indexPath} -l A \
-        -r ${fastqFiles[0]} \
-        --validateMappings -o ${line}_RTX430 \
-        --threads 2 --seqBias --gcBias \
-        --reduceGCMemory
+        sampleinfo.sh "$json_file"
         """
-    } else if (fastqFiles.size() == 2) {
-        // Paired-end
-        """
-        salmon quant -i ${indexPath} -l A \
-        -1 ${fastqFiles[0]} -2 ${fastqFiles[1]} \
-        --validateMappings -o ${line}_RTX430 \
-        --threads 2 --seqBias --gcBias \
-        --reduceGCMemory
-        """
-    } else {
-        error "Error: Expected 1 or 2 FASTQ files in the folder, found ${fastqFiles.size()}. Found files: ${fastqFiles}"
-    }
 }
 
 workflow {
     run_accession = params.reads
     genjson = channel.of(run_accession) | getReadFTP
-<<<<<<< HEAD
-    fastq_files = genjson | downloadReadFTP
-    fastq_files.println()
-    fastq_files | SalmonFull
-=======
     genjson | downloadReadFTP | runFastQC
->>>>>>> 3201447f347db6be6a9ef9ba9785435b225fafa8
     genjson | sampleInfo
 }
+
+workflow getReadfromSRA{
+    main:
+    // get fastq.gz files
+    chn = Channel.fromSRA(params.reads)
+
+    // format chn output to format accepted by splitFastq 
+    chn2 = chn.map{
+        if(it[1] instanceof String){
+            // println('string')
+            return [it]
+        }
+        else
+        {
+            // println('notrstring')
+            it[1].collect{path -> [it[0], path]}
+        }
+    }
+    .flatMap()
+    .view()
+
+    // workflow output
+    emit:
+    // splitting fastq file - edit 'by'
+    chn2.splitFastq(by:50000, file: true).map {it[1]} 
+}
+// Alternative workflow 
+// Using fromSRA splitFastq channels to get fastq splitted files
+
+//workflow {
+//    run_accesion = params.reads
+//    runTrimmomatic(getReadfromSRA())
+//}
