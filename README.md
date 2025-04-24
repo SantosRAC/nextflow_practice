@@ -14,7 +14,8 @@ Contact information:
 ### Requirements
 
  * Nextflow version 23.10.0 build 5889
- * ffq v0.3
+ * ffq v0.3.1
+ * fastqc v0.12.1
  * Trimmomatic v0.39
 
 

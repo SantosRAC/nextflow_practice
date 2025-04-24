@@ -4,7 +4,10 @@ params.reads = "SRR8742861"
 params.readsForSplit = 50000
 
 process getReadFTP {
+<<<<<<< HEAD
     publishDir "$projectDir/READS", mode: 'copy'
+=======
+>>>>>>> 3201447f347db6be6a9ef9ba9785435b225fafa8
     input:
     val sra_accession
 
@@ -28,6 +31,34 @@ process downloadReadFTP {
     python3 $projectDir/bin/download_from_json.py --json $json_file
     ls -l
     """
+}
+
+process runFastQC {
+    input:
+    path fastq_read_list
+    
+    script:
+    def read_fastqc_names = fastq_read_list.collect { it.toString().replace('.fastq.gz', '_fastqc') }
+
+    if(fastq_read_list.size() == 2)
+        
+        """
+        echo "Running FastQC PAIRED END"
+        mkdir ${read_fastqc_names[0]} ${read_fastqc_names[1]}
+        fastqc -o ${read_fastqc_names[0]} ${fastq_read_list[0]}
+        fastqc -o ${read_fastqc_names[1]} ${fastq_read_list[1]}
+        """
+    else if(fastq_read_list.size() == 1)
+        """
+        echo "Running FastQC (SINGLE END)"
+        mkdir ${read_fastqc_names[0]}
+        fastqc -o ${read_fastqc_names[0]} ${fastq_read_list[0]}
+        """
+    else
+        """
+        echo "Error"
+        echo "Not running FastQC at all!!"
+        """
 }
 
 process runTrimmomatic {
@@ -120,8 +151,12 @@ process SalmonFull {
 workflow {
     run_accession = params.reads
     genjson = channel.of(run_accession) | getReadFTP
+<<<<<<< HEAD
     fastq_files = genjson | downloadReadFTP
     fastq_files.println()
     fastq_files | SalmonFull
+=======
+    genjson | downloadReadFTP | runFastQC
+>>>>>>> 3201447f347db6be6a9ef9ba9785435b225fafa8
     genjson | sampleInfo
 }

@@ -1,5 +1,6 @@
 process salmonIndex {
     input:
+<<<<<<< HEAD
         val indexName
 
     output:
@@ -32,4 +33,18 @@ process salmonIndex {
                       new File(params.genomes_dir).listFiles().collect{ it.getName() }.join('\n')
             }
         }
+=======
+        path reference_genome
+
+    output:
+        path "salmon_index", emit: index_dir
+
+    script:
+        if (!file(reference_genome).exists()) {
+            error "ERRO: Genoma de referência não encontrado em: ${reference_genome}"
+        }
+        """
+        salmon index -t $reference_genome -i salmon_index
+        """
+>>>>>>> 3201447f347db6be6a9ef9ba9785435b225fafa8
 }
