@@ -16,7 +16,7 @@ include { buildNetwork                  } from "../modules/buildNetwork.nf"
 
 workflow {
     // read csv with samples (run = SRA Accession)
-    samples_ch = Channel.fromPath("samples/samples.csv")
+    samples_ch = Channel.fromPath(params.samples_csv)
                         .splitCsv(header: true)
 
     // map run and sample_name (from samples.csv)
@@ -25,7 +25,8 @@ workflow {
     // get SRA Accession and set accession channel
     sample_info.map { run, sample_name -> run } set { accession_ch }
 
-    // runnin the workflow (channel chaining)
+    // ~~~~~~ WORKFLOW START ~~~~~~
+
     // run process getReadFTP
     json_ch = accession_ch | getReadFTP
     getReadFTP.out.view{ "getReadFTP: $it" }
@@ -53,15 +54,12 @@ workflow {
     // group fastqc files (trimmed) and run multiqc 
     trimmed_multiqc_ch = trimmed_fastqc_ch.collect() | trimmed_multiqc
     trimmed_multiqc.out.view{ "trimmed_multiqc: $it" }
-
-    // Executar salmonIndex
-    ref_genome = file("references/MetaBAT2_bins.99_sub.fa") //TODO: include the reference file only in the configuration. Also, currently it isnt calling the file from nextflow/references/, it is calling from nextflow/MetaBAT2_bins... Needs to be fixed 
-
-    salmon_index_ch = salmonIndex(ref_genome)
+    
+    // run salmonIndex on reference genome 
+    salmon_index_ch = salmonIndex(params.ref_genome)
     salmonIndex.out.view { "salmonIndex: $it" }
-
-    // Combinar reads trimados (como lista) com o índice
-    //salmon_quant_ch = trimmed_fastq_ch.combine(salmon_index_ch) | salmonQuant // TODO: im having trouble to make it work... But the line below works properly. I thought that it would have the same function, but this line isnt finding the salmon_index_ch. I guess we should talk about it...
+    
+    // run salmonQuant on reference genome 
     salmonQuant(trimmed_fastq_ch, salmon_index_ch)
     salmonQuant.out.view{ "salmonQuant: $it" } 
     
