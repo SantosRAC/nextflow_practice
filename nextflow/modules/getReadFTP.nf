@@ -1,12 +1,14 @@
 process getReadFTP {
     input:
-        val sra_accession
+        val(run)
 
     output:
-        path "${sra_accession}.json"
+        tuple val(run), path("${run}.json")
+
+    maxForks 3  // limit parallel downloads: https://github.com/nextflow-io/nextflow/discussions/3415
 
     """
-    ffq -o ${sra_accession}.json ${sra_accession}
+    ffq -o ${run}.json ${run}
     """
 }
 

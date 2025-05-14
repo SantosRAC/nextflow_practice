@@ -1,9 +1,9 @@
 process buildNetwork {
     input:
-        path expression_matrix
+        path(expression_matrix)
 
     output:
-        path "network" //TODO: set the output name in the config file
+        path(network) 
 
     script:
         

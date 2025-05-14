@@ -1,9 +1,9 @@
 process fastqc {
     input:
-        path fastq_read_list
+        tuple val(run), path(fastq_read_list)
 
     output:
-        path "*_fastqc"
+        tuple val(run), path("*_fastqc")
 
     script:
         def read_fastqc_names = fastq_read_list.collect { it.toString().replace('.fastq.gz', '_fastqc') }
