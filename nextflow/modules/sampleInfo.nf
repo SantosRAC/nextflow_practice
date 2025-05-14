@@ -1,9 +1,9 @@
 process sampleInfo {
     input:
-        path json_file
+        tuple val(run), path(json_file)
 
     output:
-        file '*'
+        tuple val(run), file('*')
 
     """
     ${projectDir}/../bin/sampleinfo.sh ${json_file}

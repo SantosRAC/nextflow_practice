@@ -1,9 +1,9 @@
 process bbduk {
     input:
-        path fastq_read_list
+        tuple val(run), path(fastq_read_list)
 
     output:
-        path "trimmed_*"  
+        tuple val(run), path("trimmed_*")
 
     script:
         if( fastq_read_list.size() == 2 ) {
