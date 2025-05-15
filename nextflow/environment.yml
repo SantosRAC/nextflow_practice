@@ -1,9 +1,10 @@
-name: nextflow_practice
+name: R2C
 channels:
   - conda-forge
   - bioconda
   - defaults
 dependencies:
+  - openjdk=23.0.2
   - _libgcc_mutex=0.1=conda_forge
   - _openmp_mutex=4.5=2_gnu
   - alsa-lib=1.2.13=hb9d3cd8_0
