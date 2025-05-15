@@ -3,12 +3,12 @@ process buildNetwork {
         path(expression_matrix)
 
     output:
-        path(network) 
+        path("network.tsv") 
 
     script:
         
         """
         echo "Generating network from expression matrix"
-        ${projectDir}/../bin/generate_correlations_corals.py --expression_matrix $expression_matrix --output_network network
+        ${projectDir}/../bin/generate_correlations_corals.py --expression_matrix $expression_matrix --output_network network.tsv
         """
 }
