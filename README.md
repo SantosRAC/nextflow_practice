@@ -20,7 +20,6 @@ Ensure the following tools are installed before running the pipeline:
 # project structure
 
 ```
-nextflow
 ├── bin/
 │   ├── download_from_json.py
 │   ├── generate_correlations_corals.py
@@ -43,9 +42,6 @@ nextflow
 ```bash
 # clone
 git clone https://github.com/SantosRAC/R2C.git
-
-# go to nextflow directory
-cd R2C/nextflow
 ```
 
 2. **Create and activate Conda environment**:
