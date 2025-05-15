@@ -42,20 +42,20 @@ nextflow
 
 ```bash
 # clone
-git clone https://github.com/SantosRAC/nextflow_practice.git
+git clone https://github.com/SantosRAC/R2C.git
 
 # go to nextflow directory
-cd nextflow_practice/nextflow
+cd R2C/nextflow
 ```
 
 2. **Create and activate Conda environment**:
 
 ```bash
 # creating conda environment
-conda env create -n nextflow_practice -f environment.yml
+conda env create -n R2C -f environment.yml
 
 # activating environment
-conda activate nextflow_practice
+conda activate R2C
 ```
 
 ---
@@ -66,13 +66,11 @@ From the project root directory, execute:
 
 ```bash
 # run the pipeline
-nextflow run workflows/main.nf -c config/nextflow.config -with-report -with-dag
+nextflow run workflows/main.nf -c config/nextflow.config
 ```
 
 **Flags**:
 - `-c config/nextflow.config`: loads custom configuration
-- `-with-report`: generates a detailed report (`report.html`)
-- `-with-dag`: outputs a DAG of the pipeline steps
 
 ---
 
@@ -115,4 +113,4 @@ Succeeded   : 11
 
 # questions?
 
-For suggestions, bug reports, or collaboration, feel free to open an [issue](https://github.com/SantosRAC/nextflow_practice/issues)
+For suggestions, bug reports, or collaboration, feel free to open an [issue](https://github.com/SantosRAC/R2C/issues)
