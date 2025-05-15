@@ -1,57 +1,112 @@
-# Nextflow Practice
+# co-expression network pipeline
 
-## Practical activity
+This repository provides our code for the modular and reproducible **Nextflow pipeline** to build gene co-expression networks from raw RNA-Seq data.  
+It automates the process from data download to quantification and network construction.
 
- * January 15, 2024 (Monday)
- * 4pm - 6pm BRT
- * Online: [Google Meet](https://meet.google.com/jsa-uuwf-gbz)
+---
 
-PS: if you want to join the meeting, please send an email to [@SantosRAC](mailto:renatoacsantos@gmail.com) by January 14, 2024 (Sunday).
+# requirements
 
-Contact information:
- * Renato Augusto Corrêa dos Santos [@SantosRAC](mailto:renatoacsantos@gmail.com)
+Ensure the following tools are installed before running the pipeline:
 
-### Requirements
+- `Nextflow` (version **24.10.2**)
+- `Conda`
 
- * Nextflow version 23.10.0 build 5889
- * ffq v0.3.1
- * fastqc v0.12.1
- * Trimmomatic v0.39
+>[!IMPORTANT]
+>It is **strongly recommended** to use Conda for creating an isolated and reproducible environment.
 
+---
 
-### Pipeline execution
+# project structure
 
-```bash
-cd nextflow
-nextflow run nextflow_pratice.nf -c ../nextflow.config
-# if docker requires sudo
-sudo /path/to/nextflow nextflow_pratice.nf -c ../nextflow.config
+```
+├── bin/
+│   ├── download_from_json.py
+│   ├── generate_correlations_corals.py
+│   └── sampleinfo.sh
+├── config/
+│   └── nextflow.config
+├── environment.yml
+├── modules/                  # DSL2 modules
+├── workflows/                # main pipeline (main.nf)
+├── report/                   # pipeline reports (HTML + DAG)
+├── samples/                  # sample metadata (samples.csv)
 ```
 
-[@jomare1188](https://github.com/jomare1188) suggested to add the following parameters to the command line: `-with-report -with-dag`. They provide a report and a DAG graph, respectively.
+---
+
+# setup
+
+1. **Clone this repository**:
 
 ```bash
-sudo /path/to/nextflow nextflow_pratice.nf -c ../nextflow.config -with-report -with-dag --reads "SRR6665476"
+# clone
+git clone https://github.com/SantosRAC/R2C.git
 ```
 
-`--reads "SRR6665476"` changes the value of `params.reads` variable in the nextflow.nf file.
+2. **Create and activate Conda environment**:
 
-After the activity, we added a report and a DAG graph to the `/results` folder, providing examples of workflows that failed and succeeded.
+```bash
+# creating conda environment
+conda env create -n R2C -f environment.yml
 
-## Organizers
+# activating environment
+conda activate R2C
+```
 
- * Renato Augusto Corrêa dos Santos [@SantosRAC](https://github.com/SantosRAC)
- * Pedro Cristovão Carvalho [@capuccino26](https://github.com/capuccino26)
- * Jorge Mario Muñoz Pérez [@jomare1188](https://github.com/jomare1188)
- * Kelly Hidalgo Martinez [@khidalgo85](https://github.com/khidalgo85)
- * Beatriz Rodrigues Estevam [@Beatriz-Estevam](https://github.com/Beatriz-Estevam)
- * Felipe Vaz Peres [@felipevzps](https://github.com/felipevzps)
+---
 
+# how to run
 
-## References
+From the project root directory, execute:
 
- * [Nextflow & nf-core Treinamento Comunitário Online - Sessão 1 (Portuguese)](https://www.youtube.com/watch?v=751E-yOH7H8) (shared by [@khidalgo85](https://github.com/khidalgo85))
- * [Nextflow Official Documentation](https://www.nextflow.io/docs/latest/)
- * [RNA sequencing analysis pipeline](https://nf-co.re/rnaseq/3.13.2) (shared by [@capuccino26](https://github.com/capuccino26))
+```bash
+# run the pipeline
+nextflow run workflows/main.nf -c config/nextflow.config
+```
 
+**Flags**:
+- `-c config/nextflow.config`: loads custom configuration
 
+---
+
+# example output summary
+
+```
+Nextflow 24.10.5 is available - Please consider updating your version to it
+
+ N E X T F L O W   ~  version 24.10.2
+
+Launching `workflows/main.nf` [pedantic_golick] DSL2 - revision: 6c586e9cf6
+
+[07/b99ca6] getReadFTP (1)      | 1 of 1 ✔
+[4a/8f1741] downloadReadFTP (1) | 1 of 1 ✔
+[db/032232] raw_fastqc (1)      | 1 of 1 ✔
+[2d/976f7a] raw_multiqc         | 1 of 1 ✔
+[bb/799c89] bbduk (1)           | 1 of 1 ✔
+[be/c486ce] trimmed_fastqc (1)  | 1 of 1 ✔
+[3d/da08bf] trimmed_multiqc     | 1 of 1 ✔
+[9b/e00da1] salmonIndex         | 1 of 1 ✔
+[52/c5c25f] salmonQuant (1)     | 1 of 1 ✔
+[c0/b0839a] buildNetwork (1)    | 1 of 1 ✔
+[ea/443133] sampleInfo (1)      | 1 of 1 ✔
+
+Completed at: 09-Apr-2025 22:04:13
+Duration    : 13m 49s
+CPU hours   : 0.3
+Succeeded   : 11
+```
+
+---
+
+# reproducibility & testing
+
+* The pipeline was developed with Nextflow version **24.10.2**.
+* To ensure reproducibility, all steps are tracked under the `work/` directory.
+* Final reports are saved in `report/` and can be used for visualization.
+
+---
+
+# questions?
+
+For suggestions, bug reports, or collaboration, feel free to open an [issue](https://github.com/SantosRAC/R2C/issues)

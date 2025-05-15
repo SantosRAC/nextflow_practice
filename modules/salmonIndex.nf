@@ -1,9 +1,9 @@
 process salmonIndex {
     input:
-        path reference_genome
+        path(reference_genome)
 
     output:
-        path "salmon_index", emit: index_dir
+        path("salmon_index"), emit: index_dir
 
     script:
         """
