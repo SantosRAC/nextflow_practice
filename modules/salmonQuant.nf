@@ -12,20 +12,17 @@ process salmonQuant {
                 -1 ${trimmed_reads[0]} \
                 -2 ${trimmed_reads[1]} \
                 -o ${run} \
+                -p $task.cpus \
                 --validateMappings
             """
-        } else if (trimmed_reads.size() == 1) {
+        } 
+        else if (trimmed_reads.size() == 1) {
             """
             salmon quant -i $salmon_index -l A \
                 -r ${trimmed_reads[0]} \
                 -o ${run} \
+                -p $task.cpus \
                 --validateMappings
-            """
-        }
-        // TODO: remove the condition below after debuggin the pipeline
-        else {
-            """ 
-            echo: run: ${run}, "reads[0]: ${trimmed_reads[0]}, reads[1]: ${trimmed_reads[1]}, salmon_index: $salmon_index"
             """
         }
 }
