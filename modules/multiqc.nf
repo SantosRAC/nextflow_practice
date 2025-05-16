@@ -5,8 +5,8 @@ process multiqc {
     output:
         path("multiqc_report.html")
 
-    """
-    multiqc ${fastqc_dirs.join(' ')}
-    """
+    script:
+        """
+        multiqc ${fastqc_dirs.join(' ')}
+        """
 }
-
