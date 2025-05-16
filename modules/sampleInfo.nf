@@ -4,9 +4,9 @@ process sampleInfo {
 
     output:
         tuple val(run), file('*')
-
-    """
-    ${projectDir}/../bin/sampleinfo.sh ${json_file}
-    """
+    
+    script:
+        """
+        ${projectDir}/../bin/sampleinfo.sh ${json_file}
+        """
 }
-

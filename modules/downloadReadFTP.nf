@@ -5,8 +5,8 @@ process downloadReadFTP {
     output:
         tuple val(run), path("*.fastq.gz")
 
-    """
-    ${projectDir}/../bin/download_from_json.py --json ${json_file}
-    """
+    script:
+        """
+        ${projectDir}/../bin/download_from_json.py --json ${json_file}
+        """
 }
-
