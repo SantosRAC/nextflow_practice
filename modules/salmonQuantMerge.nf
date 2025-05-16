@@ -14,4 +14,3 @@ process salmonQuantMerge {
             --column TPM
         """
 }
-
